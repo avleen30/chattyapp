@@ -4,8 +4,10 @@ import MessageList from './Message-list.jsx';
 import Chatbar from './Chatbar.jsx';
 
 class App extends Component {
+
   constructor(props) {
     super(props);
+
 
     //setting the initial state
     this.state = {
@@ -23,6 +25,29 @@ class App extends Component {
     };
   }
 
+    componentDidMount() {
+    console.log("componentDidMount <App />");
+    setTimeout(() => {
+      console.log("Simulating incoming message");
+      // Add a new message to the list of messages in the data store
+      const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
+      const messages = this.state.messages.concat(newMessage)
+      // Update the state of the app component.
+      // Calling setState will trigger a call to render() in App and all child components.
+      this.setState({messages: messages})
+    }, 3000);
+  }
+
+    //function defined to add as a prop
+    postMessage(content){
+      const newMessage = {id: 3, username: this.state.currentUser.name, content: content}
+      const messages = this.state.messages.concat(newMessage)
+      this.setState({
+        messages: messages
+      })
+    }
+
+
   render() {
     return (
     <div>
@@ -32,7 +57,7 @@ class App extends Component {
     </nav>
 
     <MessageList messages = {this.state.messages}/>
-    <Chatbar name={this.state.currentUser.name}/>
+    <Chatbar name={this.state.currentUser.name} postMessage={this.postMessage.bind(this)}/>
 
 
     </div>
