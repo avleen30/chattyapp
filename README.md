@@ -3,6 +3,13 @@ React Boilerplate
 
 A minimal and light dev environment for ReactJS.
 
+## Screenshots
+![screenshot of Login Page](https://github.com/avleen30/TinyApp/blob/master/Docs/Login.png?raw=true)
+![screenshot of registration page](https://github.com/avleen30/TinyApp/blob/master/Docs/register.png?raw=true)
+![screenshot for getting a short URL](https://github.com/avleen30/TinyApp/blob/master/Docs/GetaShortURL.png?raw=true)
+![screenshot of short URL's](https://github.com/avleen30/TinyApp/blob/master/Docs/shortURL.png?raw=true)
+![screenshot of Home Page](https://github.com/avleen30/TinyApp/blob/master/Docs/userHomePage.png?raw=true)
+
 ### Usage
 
 Clone the boilerplate and create your own git repo.
@@ -23,11 +30,7 @@ npm start
 open http://localhost:3000
 ```
 
-### Static Files
 
-You can store static files like images, fonts, etc in the `build` folder.
-
-For example, if you copy a file called my_image.png into the build folder you can access it using `http://localhost:3000/build/my_image.png`.
 
 ### Linting
 

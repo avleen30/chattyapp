@@ -1,68 +1,117 @@
 import React, {Component} from 'react';
-import MessageList from './Message-list.jsx';
 
-import Chatbar from './Chatbar.jsx';
+import ChatBar from './ChatBar.jsx';
+import MessageList from './MessageList.jsx';
+import NavBar from './NavBar.jsx';
+
+const data = {
+    currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
+    messages: [
+    {
+      key: "1",
+      username: "Bob",
+      content: "Has anyone seen my marbles?",
+    },
+    {
+      key: "2",
+      username: "Anonymous",
+      content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
+    }
+  ]
+}
 
 class App extends Component {
-
-  constructor(props) {
+  constructor(props){
     super(props);
-
-
-    //setting the initial state
-    this.state = {
-      currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
-      messages: [
-        {
-          username: "Bob",
-          content: "Has anyone seen my marbles?",
-        },
-        {
-          username: "Anonymous",
-          content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
-        }
-      ]
+    this.state = {currentUser: {name: "Bob"},
+      messages: [],
+      count : 0
     };
   }
 
-    componentDidMount() {
-    console.log("componentDidMount <App />");
-    setTimeout(() => {
-      console.log("Simulating incoming message");
-      // Add a new message to the list of messages in the data store
-      const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
-      const messages = this.state.messages.concat(newMessage)
-      // Update the state of the app component.
-      // Calling setState will trigger a call to render() in App and all child components.
-      this.setState({messages: messages})
-    }, 3000);
-  }
-
-    //function defined to add as a prop
-    postMessage(content){
-      const newMessage = {id: 3, username: this.state.currentUser.name, content: content}
-      const messages = this.state.messages.concat(newMessage)
-      this.setState({
-        messages: messages
-      })
+  _enterMessage = (message) => {
+    console.log("Messages", this.state.messages)
+    console.log("Uername", this.state.currentUser.name)
+    console.log("New Message", message)
+    this.state.currentUser.name = message.username
+    const newMessage = {
+      type: "newMessage",
+      username: message.username,
+      content: message.content,
+      color: "black"};
+    this.socket.send(JSON.stringify(newMessage))
+    // const messages = this.state.messages.concat(newMessage)
+    // this.setState({messages: messages})
     }
 
 
+  _enterUser = (userA, userB) => {
+    console.log("userA", userA);
+    console.log("userB", userB);
+    const userChanged = {type: "postNotification", content: `${userA} has changed their name to ${userB}`, user: userB}
+    this.socket.send(JSON.stringify(userChanged))
+    const userShow = {content: userChanged.content}
+  }
+
+
+    componentDidMount() {
+      console.log("ComponentDidMount ran")
+
+      this.socket = new WebSocket("ws://localhost:3001")
+
+      this.socket.onmessage = (event) => {
+        const newMessage = JSON.parse(event.data);
+        console.log("this.socket.onmessage", newMessage);
+        // code to handle incoming message
+
+        const data = JSON.parse(event.data);
+        switch(data.type) {
+          case "incomingMessage":
+          // handle incoming message
+          // const income = data
+          // console.log("incoming message", income);
+          // const incomTotal = this.state.messages.concat(income);
+          // this.setState({messages:newTotal});
+
+
+          break;
+          case "incomingNotification":
+          // handle incoming notification
+          const displayUserChanged = data
+          console.log("incomingNotification", displayUserChanged);
+          this.state.messages.push(displayUserChanged)
+          // this.setState({messages: newTotal})
+
+          break;
+          case "userCount":
+          console.log("userCount function is sent");
+          this.setState({count: data.count})
+
+          default:
+
+          this.state.messages.push(data)
+
+          this.setState({messages: this.state.messages})
+          // show an error in the console if the message type is unknown
+          throw new Error("Unknown event type " + data.type);
+        }
+
+
+        console.log("this.state.messages", this.state.messages)
+      }
+
+
+  }
   render() {
+    console.log("Rendering <App/>");
     return (
-    <div>
+      <div>
+        <NavBar count = {this.state.count} />
+        <MessageList msgs = {this.state.messages} />
+        <ChatBar user={this.state.currentUser.name} enterMessage={this._enterMessage} enterUser={this._enterUser} />
 
-    <nav className="navbar">
-      <a href="/" className="navbar-brand">Chatty</a>
-    </nav>
-
-    <MessageList messages = {this.state.messages}/>
-    <Chatbar name={this.state.currentUser.name} postMessage={this.postMessage.bind(this)}/>
-
-
-    </div>
+      </div>
     );
-
   }
 }
 export default App;

@@ -2,31 +2,17 @@ import React, {Component} from 'react';
 
 
 class Message extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
-
-    //loop through the dummy data array
-    var messageList=this.props.messages.map(( message, i) => {
-
+    console.log("Rendering Message");
     return (
-
-    //add a key to identify each initial state
-
-    <div key={i} className="message">
-        <span className="message-username">{message.username}</span>
-        <span className="message-content">{message.content}</span>
-    </div>
-
-      );
-    });
-      return (<div>{
-        messageList
-      }</div>)
-    }
+      <div>
+        <span className="message-username" style ={{'color':this.props.color}}>{this.props.username}</span>
+        <span className="message-content">{this.props.content}</span>
+        <div className="message system">
+        </div>
+      </div>
+      // }
+    );
+  }
 }
-
-
 export default Message;
