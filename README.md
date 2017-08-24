@@ -4,11 +4,8 @@ React Boilerplate
 A minimal and light dev environment for ReactJS.
 
 ## Screenshots
-![screenshot of Login Page](https://github.com/avleen30/TinyApp/blob/master/Docs/Login.png?raw=true)
-![screenshot of registration page](https://github.com/avleen30/TinyApp/blob/master/Docs/register.png?raw=true)
-![screenshot for getting a short URL](https://github.com/avleen30/TinyApp/blob/master/Docs/GetaShortURL.png?raw=true)
-![screenshot of short URL's](https://github.com/avleen30/TinyApp/blob/master/Docs/shortURL.png?raw=true)
-![screenshot of Home Page](https://github.com/avleen30/TinyApp/blob/master/Docs/userHomePage.png?raw=true)
+![screenshot of Login Page](https://github.com/avleen30/chattyapp/blob/master/Docs/Screenshot_2017-08-24_18-31-38.png?raw=true)
+
 
 ### Usage
 
